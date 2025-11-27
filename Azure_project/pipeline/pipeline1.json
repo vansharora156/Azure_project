@@ -118,7 +118,12 @@
 				"outputs": [
 					{
 						"referenceName": "Parquet1",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"container": "bronze",
+							"folder": "@pipeline().parameters.table",
+							"file": "@concat(pipeline().parameters.table,'_',variables('current'))"
+						}
 					}
 				]
 			},
@@ -192,7 +197,10 @@
 								"scripts": [
 									{
 										"type": "Query",
-										"text": "@concat(\n        'SELECT MAX(',pipeline().parameters.cdc,') AS max_cdc FROM \n                ',\n                    pipeline().parameters.schema,'.',pipeline().parameters.table\n                    )\n)"
+										"text": {
+											"value": "@concat(\n        'SELECT MAX(',pipeline().parameters.cdc,') AS max_cdc FROM \n                ',\n                    pipeline().parameters.schema,'.',pipeline().parameters.table\n                    )\n)",
+											"type": "Expression"
+										}
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
@@ -243,13 +251,23 @@
 							"inputs": [
 								{
 									"referenceName": "json_dynamic",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"container": "bronze",
+										"folder": "monitor",
+										"file": "empty.json"
+									}
 								}
 							],
 							"outputs": [
 								{
 									"referenceName": "json_dynamic",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"container": "bronze",
+										"folder": "monitor",
+										"file": "cdc.json"
+									}
 								}
 							]
 						}
