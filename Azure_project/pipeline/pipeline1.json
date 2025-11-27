@@ -29,7 +29,8 @@
 					"dataset": {
 						"referenceName": "json_dynamic",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
