@@ -125,7 +125,14 @@
 			{
 				"name": "ifnewrows",
 				"type": "IfCondition",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
@@ -148,7 +155,12 @@
 							"typeProperties": {
 								"dataset": {
 									"referenceName": "Parquet1",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"container": "bronze",
+										"folder": "@pipeline().parameters.table",
+										"file": "@concat(pipeline().parameters.table,'_',variables('current'))"
+									}
 								},
 								"enableLogging": false,
 								"storeSettings": {
